@@ -1,8 +1,11 @@
 from abc import ABC, abstractmethod
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 
 class Book:
-    def __init__(self, title: str, author: str, year: str):
+    def __init__(self, title: str, author: str, year: str) -> None:
         self.title = title
         self.author = author
         self.year = year
@@ -24,7 +27,7 @@ class LibraryInterface(ABC):
 
 
 class Library(LibraryInterface):
-    def __init__(self):
+    def __init__(self) -> None:
         self.books: list[Book] = []
 
     def add_book(self, book: Book) -> None:
@@ -43,7 +46,7 @@ class Library(LibraryInterface):
 
 
 class LibraryManager:
-    def __init__(self, library: LibraryInterface):
+    def __init__(self, library: LibraryInterface) -> None:
         self.library = library
 
     def add_book(self, title: str, author: str, year: str) -> None:
@@ -56,14 +59,16 @@ class LibraryManager:
     def show_books(self) -> None:
         books = self.library.show_books()
         if not books:
-            print("Library is empty.")
+            logging.info("Library is empty.")
             return
 
         for book in books:
-            print(f"Title: {book.title}, Author: {book.author}, Year: {book.year}")
+            logging.info(
+                f"Title: {book.title}, Author: {book.author}, Year: {book.year}"
+            )
 
 
-def main():
+def main() -> None:
     library = Library()
     manager = LibraryManager(library)
 
@@ -84,7 +89,7 @@ def main():
             case "exit":
                 break
             case _:
-                print("Invalid command. Please try again.")
+                logging.info("Invalid command. Please try again.")
 
 
 if __name__ == "__main__":
